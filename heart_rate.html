@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Oddychanie</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    .heart-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 32px 0 24px 0;
+    }
+    .heart {
+      width: 64px;
+      height: 64px;
+      background: none;
+      position: relative;
+    }
+    .heart svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+      fill: #e57373;
+      filter: drop-shadow(0 2px 8px #ffcdd2);
+      transition: transform 0.1s;
+    }
+    .bpm-label {
+      margin-top: 12px;
+      font-size: 1.2em;
+      color: #64b5f6;
+      font-weight: 700;
+      font-family: 'Quicksand', 'Segoe UI', Arial, sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <header style="display:flex; align-items:center; gap:12px; justify-content:flex-start; padding:18px 24px; background:#e3f2fd; border-bottom:1px solid #bbdefb;">
+    <button onclick="window.history.back()" style="background:#e3f2fd; border:none; border-radius:8px; padding:6px 14px; font-size:1em; color:#64b5f6; font-weight:600; cursor:pointer;">
+        ← 
+    </button>
+    <span style="font-size:1.2em; font-weight:600; letter-spacing:1px;">Marysia 👶</span>
+    </header>
+  <main>
+    <hr>
+    <hr>
+    <h2>Listen to little heart</h2>
+    <div class="heart-container">
+      <div class="heart" id="heartAnim">
+        <svg viewBox="0 0 32 32">
+          <path d="M16 29s-13-8.35-13-16.5A7.5 7.5 0 0 1 16 5a7.5 7.5 0 0 1 13 7.5C29 20.65 16 29 16 29z"/>
+        </svg>
+      </div>
+      <div class="bpm-label" id="bpmLabel">120 BPM</div>
+    </div>
+    <div style="margin:24px auto 0 auto; max-width:320px;">
+      <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+        <span id="breathCheck1Icon"></span>
+        <span style="font-family:'Quicksand', 'Segoe UI', Arial, sans-serif;">Oddech regularny</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+        <span id="breathCheck2Icon"></span>
+        <span style="font-family:'Quicksand', 'Segoe UI', Arial, sans-serif;">Brak przerw w oddechu</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:10px;">
+        <span id="breathCheck3Icon"></span>
+        <span style="font-family:'Quicksand', 'Segoe UI', Arial, sans-serif;">Brak zakrycia twarzy kocem</span>
+      </div>
+    </div>
+
+  </main>
+  <footer style="display:flex; justify-content:center; gap:32px; padding:16px 0; background:none; border-top:none;">
+  <a href="camera.html"><img src="icons/camera_video_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="camera" style="width:32px; height:32px; opacity:0.8;"></a>
+  <a href="food.html"><img src="icons/grocery_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="food" style="width:32px; height:32px; opacity:0.8;"></a>
+  <a href="user.html"><img src="icons/person_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="user" style="width:32px; height:32px; opacity:0.8;"></a>
+  <a href="devices.html"><img src="icons/device_hub_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="devices" style="width:32px; height:32px; opacity:0.8;"></a>
+  <a href="settings.html"><img src="icons/settings_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="settings" style="width:32px; height:32px; opacity:0.8;"></a>
+</footer>
+  <script>
+    // Load heart rate data from CSV file
+    async function fetchHeartRateData() {
+      const response = await fetch('data/heart_rate.csv');
+      const text = await response.text();
+      // Parse CSV
+      const lines = text.trim().split('\n');
+      const data = [];
+      for (let i = 1; i < lines.length; i++) {
+        const [time, bpm] = lines[i].split(',');
+        data.push({ time, bpm: parseInt(bpm) });
+      }
+      return data;
+    }
+
+    fetchHeartRateData().then(heartRateData => {
+      let idx = 0;
+      function animateHeart() {
+        const bpm = heartRateData[idx].bpm;
+        document.getElementById('bpmLabel').textContent = bpm + ' BPM';
+        // Animation: scale heart according to BPM
+        const heart = document.getElementById('heartAnim').querySelector('svg');
+        heart.style.transform = 'scale(1.15)';
+        setTimeout(() => {
+          heart.style.transform = 'scale(1)';
+        }, 60000 / bpm / 2); // half beat
+        idx = (idx + 1) % heartRateData.length;
+        setTimeout(animateHeart, 60000 / bpm);
+      }
+      animateHeart();
+    });
+  </script>
+  <script>
+    // Przykładowe dane multisensoryczne (możesz podmienić na fetch z data/multisensory.csv)
+    const multisensoryData = {
+      breathRegular: true,
+      breathInterruptions: false,
+      faceCovered: false // true jeśli twarz zakryta kocem
+    };
+
+    // Ikony SVG haczyków
+    function checkIcon(color="#43a047") {
+      return `<svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="11" fill="${color}" opacity="0.15"/><path d="M6 12.5l3 3 7-7" stroke="${color}" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+    }
+    function warnIcon(color="#ffa000") {
+      return `<svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="11" fill="${color}" opacity="0.15"/><path d="M11 7v5M11 15v1" stroke="${color}" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>`;
+    }
+
+    // Ustaw ikony wg danych
+    document.getElementById('breathCheck1Icon').innerHTML = multisensoryData.breathRegular ? checkIcon() : warnIcon("#e53935");
+    document.getElementById('breathCheck2Icon').innerHTML = !multisensoryData.breathInterruptions ? checkIcon() : warnIcon("#e53935");
+    document.getElementById('breathCheck3Icon').innerHTML = !multisensoryData.faceCovered ? checkIcon() : warnIcon("#ffa000");
+  </script>
+</body>
+</html>

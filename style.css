@@ -56,6 +56,13 @@ body {
       height: 20px;
       margin-top: 0.3rem;
     }
+        h2{
+      text-align: center;
+      color: #64b5f6;
+      font-weight: 700;
+      margin-bottom: 18px;
+      margin-top: 0;
+    }
 
     h4 {
       margin: 0;

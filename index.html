@@ -3,46 +3,333 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Marysia Dashboard</title>
+  <title>Marysia - Monitorowanie snu dziecka</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      background: #f8fafd;
+      font-family: 'Quicksand', 'Segoe UI', Arial, sans-serif;
+      color: #444;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 24px;
+      background: #e3f2fd;
+      border-bottom: 1px solid #bbdefb;
+      font-size: 1.2em;
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+    header img {
+      width: 28px;
+      height: 28px;
+      opacity: 0.7;
+    }
+    main {
+      padding: 24px 12px 12px 12px;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+    h2, h4 {
+      text-align: center;
+      color: #64b5f6;
+      font-weight: 700;
+      margin-bottom: 18px;
+      margin-top: 0;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+    .tile {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 2px 8px #e3f2fd;
+      padding: 18px 0 10px 0;
+      text-align: center;
+      font-size: 1.1em;
+      color: #444;
+      position: relative;
+      transition: box-shadow 0.2s;
+    }
+    .tile img {
+      margin-top: 8px;
+      width: 32px;
+      height: 32px;
+      opacity: 0.8;
+    }
+    .tile:hover {
+      box-shadow: 0 4px 16px #bbdefb;
+      cursor: pointer;
+    }
+    .bar {
+      margin: 0 auto;
+      width: 340px;
+      background: none;
+      border-radius: 12px;
+      box-shadow: none;
+      padding: 0;
+    }
+    canvas {
+      display: block;
+      margin: 0 auto 12px auto;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px #e3f2fd;
+    }
+    footer {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      padding: 16px 0;
+      background: none;
+      border-top: none;
+    }
+    footer a {
+      color: #64b5f6;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+  <!-- Cute Google font -->
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
 </head>
 <body>
   <header>
-    <span>Marysia</span>
-    <img src="icons/settings_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="settings">
+    <span>Marysia 👶</span>
+    <img src="icons/settings_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="Ustawienia">
   </header>
-
-  <main>
+   <main>
+    <div style="text-align:center; color:#43a047; font-weight:700; font-size:1.1em; margin-bottom:18px;">
+      Baby is safe, you're doing great!
+    </div>
     <div class="grid">
       <a href="temperature.html"><div class="tile">
         36.9°C
-        <img src="icons/device_thermostat_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="temperature" class="heart">
+        <img src="icons/device_thermostat_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="Temperatura">
       </div></a>
       <a href="breathing.html"><div class="tile">
         OK
-        <img src="icons/pulmonology_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="breathing" class="heart">
+        <img src="icons/pulmonology_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="Oddychanie">
       </div></a>
       <a href="heart_rate.html"><div class="tile">
         120
-        <img src="icons/favorite_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="heart" class="heart">
+        <img src="icons/favorite_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="Serce">
       </div></a>
       <a href="sleep_quality.html"><div class="tile">
         97%
-        <img src="icons/bedtime_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="heart" class="heart">
+        <img src="icons/bedtime_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="Sen">
       </div></a>
     </div>
-    <h4>Przewidywany sen dziecka</h4>
-    <div class="bar"></div>
-    <h4>Przewidywana kupa</h4>
-    <div class="bar"></div>
+    <!-- Usunięto ikonę i tytuł "Sen" przed wykresem -->
+    <div class="bar">
+      <canvas id="sleepTimeline" width="340" height="80"></canvas>
+    </div>
+    <!-- Poop prediction chart below -->
+    <div class="bar" style="margin-top:18px;">
+      <canvas id="poopTimeline" width="340" height="80"></canvas>
+    </div>
   </main>
-
-  <footer>
-  <a href="camera.html"><img src="icons/camera_video_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="camera"></a>
-  <a href="food.html"><img src="icons/grocery_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="food"></a>
-  <a href="user.html"><img src="icons/person_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="user"></a>
-  <a href="devices.html"><img src="icons/device_hub_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="devices"></a>
-  <a href="settings.html"><img src="icons/settings_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="settings"></a>
+  <footer style="display:flex; justify-content:center; gap:32px; padding:16px 0; background:none; border-top:none;">
+    <a href="camera.html"><img src="icons/camera_video_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="camera" style="width:32px; height:32px; opacity:0.8;"></a>
+    <a href="food.html"><img src="icons/grocery_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="food" style="width:32px; height:32px; opacity:0.8;"></a>
+    <a href="user.html"><img src="icons/person_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="user" style="width:32px; height:32px; opacity:0.8;"></a>
+    <a href="devices.html"><img src="icons/device_hub_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="devices" style="width:32px; height:32px; opacity:0.8;"></a>
+    <a href="settings.html"><img src="icons/settings_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="settings" style="width:32px; height:32px; opacity:0.8;"></a>
   </footer>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+  // Sleep blocks and gaps (mock data, full 24h timeline)
+  const blocks = [
+    { start: 20.5, end: 24, color: "#90caf9" },   // Sen nocny (wieczór)
+    { start: 0, end: 6.5, color: "#90caf9" },     // Sen nocny (noc)
+    { start: 9.2, end: 10.0, color: "#f8bbd0" },  // Drzemka
+    { start: 12.8, end: 13.5, color: "#f8bbd0" }, // Drzemka
+    { start: 16.3, end: 17.0, color: "#f8bbd0" }  // Drzemka
+  ];
+
+  // Convert blocks to segments with gaps (full 24h)
+  function getSegments(blocks) {
+    let segments = [];
+    let lastEnd = 0;
+    blocks.forEach((block, i) => {
+      // Add gap if needed
+      if (block.start > lastEnd) {
+        segments.push({
+          label: '',
+          value: block.start - lastEnd,
+          color: 'rgba(0,0,0,0)'
+        });
+      }
+      segments.push({
+        label: '',
+        value: block.end - block.start,
+        color: block.color
+      });
+      lastEnd = block.end;
+    });
+    // Add gap to end of day if needed
+    if (lastEnd < 24) {
+      segments.push({
+        label: '',
+        value: 24 - lastEnd,
+        color: 'rgba(0,0,0,0)'
+      });
+    }
+    return segments;
+  }
+
+  // Order blocks by start time (across midnight)
+  const orderedBlocks = [
+    blocks[1], // noc (0-6.5)
+    blocks[2], // drzemka 1
+    blocks[3], // drzemka 2
+    blocks[4], // drzemka 3
+    blocks[0]  // wieczór (20.5-24)
+  ].sort((a, b) => a.start - b.start);
+
+  const segments = getSegments(orderedBlocks);
+
+  // Get current time as hour with decimals
+  const now = new Date();
+  const currentHour = now.getHours() + now.getMinutes() / 60;
+
+  // Chart.js plugin to draw a red line at current time
+  const currentTimeLine = {
+    id: 'currentTimeLine',
+    afterDraw: chart => {
+      const xScale = chart.scales.x;
+      if (!xScale) return;
+      const ctx = chart.ctx;
+      const x = xScale.getPixelForValue(currentHour);
+      ctx.save();
+      ctx.strokeStyle = 'red';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(x, chart.chartArea.top);
+      ctx.lineTo(x, chart.chartArea.bottom);
+      ctx.stroke();
+      ctx.restore();
+    }
+  };
+
+  new Chart(document.getElementById('sleepTimeline').getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: [''],
+      datasets: segments.map(seg => ({
+        label: '',
+        data: [seg.value],
+        backgroundColor: seg.color,
+        barPercentage: 1,
+        categoryPercentage: 1,
+        stack: 'sleep'
+      }))
+    },
+    options: {
+      indexAxis: 'y',
+      plugins: {
+        legend: { display: false }
+      },
+      scales: {
+        x: {
+          min: 0,
+          max: 24,
+          title: { display: false, text: 'Godzina (24h)', color: '#888' },
+          ticks: { stepSize: 2, color: '#888' },
+          stacked: true
+        },
+        y: {
+          stacked: true,
+          grid: { display: false }
+        }
+      }
+    },
+    plugins: [currentTimeLine]
+  });
+
+  // Poop prediction blocks (mock data, full 24h timeline)
+  const poopBlocks = [
+    { start: 7.5, end: 7.7, color: "#ffe082" },   // Morning poop
+    { start: 13.0, end: 13.2, color: "#ffe082" }, // Afternoon poop
+    { start: 19.5, end: 19.7, color: "#ffe082" }  // Evening poop
+  ];
+
+  // Convert blocks to segments with gaps (full 24h)
+  function getSegments(blocks) {
+    let segments = [];
+    let lastEnd = 0;
+    blocks.forEach((block, i) => {
+      if (block.start > lastEnd) {
+        segments.push({
+          label: '',
+          value: block.start - lastEnd,
+          color: 'rgba(0,0,0,0)'
+        });
+      }
+      segments.push({
+        label: '',
+        value: block.end - block.start,
+        color: block.color
+      });
+      lastEnd = block.end;
+    });
+    if (lastEnd < 24) {
+      segments.push({
+        label: '',
+        value: 24 - lastEnd,
+        color: 'rgba(0,0,0,0)'
+      });
+    }
+    return segments;
+  }
+
+  const poopSegments = getSegments(poopBlocks);
+
+
+  new Chart(document.getElementById('poopTimeline').getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: [''],
+      datasets: poopSegments.map(seg => ({
+        label: '',
+        data: [seg.value],
+        backgroundColor: seg.color,
+        barPercentage: 1,
+        categoryPercentage: 1,
+        stack: 'poop'
+      }))
+    },
+    options: {
+      indexAxis: 'y',
+      plugins: {
+        legend: { display: false }
+      },
+      scales: {
+        x: {
+          min: 0,
+          max: 24,
+          title: { display: false, text: 'Godzina (24h)', color: '#888' },
+          ticks: { stepSize: 2, color: '#888' },
+          stacked: true
+        },
+        y: {
+          stacked: true,
+          grid: { display: false }
+        }
+      }
+    },
+    plugins: [currentTimeLine]
+  });
+  </script>
 </body>
 </html>

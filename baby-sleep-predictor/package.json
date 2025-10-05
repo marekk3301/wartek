@@ -1,0 +1,22 @@
+{
+  "name": "baby-sleep-predictor",
+  "version": "1.0.0",
+  "description": "A project to predict baby sleep time using data visualization.",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "live-server public",
+    "build": "webpack"
+  },
+  "dependencies": {
+    "@observablehq/plot": "^0.1.0",
+    "d3": "^7.0.0",
+    "papaparse": "^5.3.0"
+  },
+  "devDependencies": {
+    "webpack": "^5.0.0",
+    "webpack-cli": "^4.0.0",
+    "live-server": "^1.2.1"
+  },
+  "author": "Your Name",
+  "license": "MIT"
+}

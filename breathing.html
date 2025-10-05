@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tętno</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header style="display:flex; align-items:center; gap:12px; justify-content:flex-start; padding:18px 24px; background:#e3f2fd; border-bottom:1px solid #bbdefb;">
+    <button onclick="window.history.back()" style="background:#e3f2fd; border:none; border-radius:8px; padding:6px 14px; font-size:1em; color:#64b5f6; font-weight:600; cursor:pointer;">
+        ← 
+    </button>
+    <span style="font-size:1.2em; font-weight:600; letter-spacing:1px;">Marysia 👶</span>
+    </header>
+  <main>
+    <h2>Tętno</h2>
+    <p>Informacje o tętnie dziecka.</p>
+    <!-- ...po animacji serca, w <main>... -->
+<div style="margin:24px auto 0 auto; max-width:320px;">
+  <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+    <span id="breathCheck1Icon"></span>
+    <span style="font-family:'Quicksand', 'Segoe UI', Arial, sans-serif;">Oddech regularny</span>
+  </div>
+  <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+    <span id="breathCheck2Icon"></span>
+    <span style="font-family:'Quicksand', 'Segoe UI', Arial, sans-serif;">Brak przerw w oddechu</span>
+  </div>
+  <div style="display:flex; align-items:center; gap:10px;">
+    <span id="breathCheck3Icon"></span>
+    <span style="font-family:'Quicksand', 'Segoe UI', Arial, sans-serif;">Brak zakrycia twarzy kocem</span>
+  </div>
+</div>
+
+<script>
+  // Przykładowe dane multisensoryczne (możesz podmienić na fetch z data/multisensory.csv)
+  const multisensoryData = {
+    breathRegular: true,
+    breathInterruptions: false,
+    faceCovered: false // true jeśli twarz zakryta kocem
+  };
+
+  // Ikony SVG haczyków
+  function checkIcon(color="#43a047") {
+    return `<svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="11" fill="${color}" opacity="0.15"/><path d="M6 12.5l3 3 7-7" stroke="${color}" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+  }
+  function warnIcon(color="#ffa000") {
+    return `<svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="11" fill="${color}" opacity="0.15"/><path d="M11 7v5M11 15v1" stroke="${color}" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>`;
+  }
+
+  // Ustaw ikony wg danych
+  document.getElementById('breathCheck1Icon').innerHTML = multisensoryData.breathRegular ? checkIcon() : warnIcon("#e53935");
+  document.getElementById('breathCheck2Icon').innerHTML = !multisensoryData.breathInterruptions ? checkIcon() : warnIcon("#e53935");
+  document.getElementById('breathCheck3Icon').innerHTML = !multisensoryData.faceCovered ? checkIcon() : warnIcon("#ffa000");
+</script>
+  </main>
+  <footer style="display:flex; justify-content:center; gap:32px; padding:16px 0; background:none; border-top:none;">
+  <a href="camera.html"><img src="icons/camera_video_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="camera" style="width:32px; height:32px; opacity:0.8;"></a>
+  <a href="food.html"><img src="icons/grocery_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="food" style="width:32px; height:32px; opacity:0.8;"></a>
+  <a href="user.html"><img src="icons/person_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="user" style="width:32px; height:32px; opacity:0.8;"></a>
+  <a href="devices.html"><img src="icons/device_hub_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="devices" style="width:32px; height:32px; opacity:0.8;"></a>
+  <a href="settings.html"><img src="icons/settings_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="settings" style="width:32px; height:32px; opacity:0.8;"></a>
+</footer>
+</body>
+</html>
