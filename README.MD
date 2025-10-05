@@ -31,19 +31,17 @@ Built to help parents move from guesswork to guidance.
 ## Privacy by design
 - **Edge preprocessing**, minimal telemetry, transparent controls.  
 - **Camera is opt-in and isolated**; core runs without audio/video streaming.  
-- **Important:** This is **not** a medical device and does **not** prevent SIDS; it offers timely alerts to prompt caregiver attention.
+- **Important:** This is **not** a medical device and does **not** prevent SIDS;
 
 ---
 
 ## Hardware (inside the plush toy)
 - **MCU:** Raspberry Pi **Pico W** (RP2040 + Wi-Fi 2.4 GHz)
-- **H₂S sensor:** SEN0568 — diaper-related odor detection *(link to datasheet)*
-- **mmWave 60 GHz:** SEN0623 — presence, micro-motion (breath/HR) *(link to docs)*
-- **IR thermometer:** MLX90614 — **non-contact** skin temperature *(link to docs)*
-- **Room thermometer:** SEN0434 — ambient temperature *(link to docs)*
-- **MEMS microphone:** SEN0526 — ambient noise level *(link to docs)*
-
-> Replace “*(link to …)*” with your actual vendor/datasheet URLs.
+- **H₂S sensor:** SEN0568 — diaper-related odor detection
+- **mmWave 60 GHz:** SEN0623 — presence, micro-motion (breath/HR) 
+- **IR thermometer:** MLX90614 — **non-contact** skin temperature 
+- **Room thermometer:** SEN0434 — ambient temperature 
+- **MEMS microphone:** SEN0526 — ambient noise level 
 
 ---
 
@@ -70,7 +68,6 @@ Built to help parents move from guesswork to guidance.
 - **Live demo:** run the app locally and feed mock data via a simulator or replay script (1 Hz).
 - **No backend yet?** Keep the same JSON shape; you can swap in a real ingest/WS server later without changing the client.
 
-*(If you want copy-paste commands here, I can add a “Run locally in 2 steps” section tailored to your folder layout.)*
 
 ---
 
@@ -81,10 +78,6 @@ Built to help parents move from guesswork to guidance.
 - Optional camera UX (opt-in, isolated processing, privacy controls).
 - Export/share sleep summaries for caregivers.
 
----
-
-## License / attribution
-Choose a license (e.g., MIT/Apache-2.0). Add sensor vendor attributions if required.
 
 ---
 
