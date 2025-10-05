@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Oddychanie</title>
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="details_styles.css" />
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
   <style>
     .heart-container {
@@ -37,20 +38,18 @@
   </style>
 </head>
 <body>
-  <header style="display:flex; align-items:center; gap:12px; justify-content:flex-start; padding:18px 24px; background:#e3f2fd; border-bottom:1px solid #bbdefb;">
-    <button onclick="window.history.back()" style="background:#e3f2fd; border:none; border-radius:8px; padding:6px 14px; font-size:1em; color:#64b5f6; font-weight:600; cursor:pointer;">
-        ← 
-    </button>
-    <span style="font-size:1.2em; font-weight:600; letter-spacing:1px;">Marysia 👶</span>
-    </header>
+  <header>
+    <button onclick="window.history.back()">←</button>
+    <span style="font-size:1.05rem; font-weight:700;">Marysia 👶</span>
+  </header>
   <main>
     <hr>
     <hr>
     <h2>Listen to little heart</h2>
     <div class="heart-container">
       <div class="heart" id="heartAnim">
-        <svg viewBox="0 0 32 32">
-          <path d="M16 29s-13-8.35-13-16.5A7.5 7.5 0 0 1 16 5a7.5 7.5 0 0 1 13 7.5C29 20.65 16 29 16 29z"/>
+        <svg viewBox="0 0 50 50">
+          <path d="M25 39.7l-.6-.5C11.5 28.7 8 25 8 19c0-5 4-9 9-9 4.1 0 6.4 2.3 8 4.1 1.6-1.8 3.9-4.1 8-4.1 5 0 9 4 9 9 0 6-3.5 9.7-16.4 20.2l-.6.5z"/>
         </svg>
       </div>
       <div class="bpm-label" id="bpmLabel">120 BPM</div>
@@ -74,7 +73,7 @@
   <footer style="display:flex; justify-content:center; gap:32px; padding:16px 0; background:none; border-top:none;">
   <a href="camera.html"><img src="icons/camera_video_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="camera" style="width:32px; height:32px; opacity:0.8;"></a>
   <a href="food.html"><img src="icons/grocery_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="food" style="width:32px; height:32px; opacity:0.8;"></a>
-  <a href="user.html"><img src="icons/person_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="user" style="width:32px; height:32px; opacity:0.8;"></a>
+  <a href="index.html"><img src="icons/person_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="user" style="width:32px; height:32px; opacity:0.8;"></a>
   <a href="devices.html"><img src="icons/device_hub_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="devices" style="width:32px; height:32px; opacity:0.8;"></a>
   <a href="settings.html"><img src="icons/settings_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="settings" style="width:32px; height:32px; opacity:0.8;"></a>
 </footer>

@@ -5,103 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Sen</title>
   <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="details_styles.css"/>
   <style>
-    :root {
-      --brand:#64b5f6;
-      --muted:#777;
-      --ok:#43a047;
-      --warn:#ffa000;
-      --danger:#e53935;
-      --panel:#f6f8fa;
-    }
-    body {
-      margin:0;
-      font-family:'Quicksand', Arial, sans-serif;
-      background: linear-gradient(135deg, #e3f2fd 0%, #f8fafd 100%);
-      color:#222;
-    }
-    header {
-      display:flex;
-      align-items:center;
-      gap:12px;
-      padding:18px 24px;
-      background:#fff;
-      border-bottom:1px solid #bbdefb;
-      border-radius:0 0 24px 24px;
-      box-shadow:0 2px 8px #e3f2fd;
-    }
-    header button {
-      background:none;
-      border:none;
-      font-size:1.2em;
-      color:#64b5f6;
-      cursor:pointer;
-    }
-    header span {
-      font-weight:700;
-      color:#64b5f6;
-      font-size:1.2em;
-    }
-    main {
-      padding:16px;
-      max-width:400px;
-      margin:0 auto 90px;
-    }
-    h2 {
-      text-align:center;
-      color:#64b5f6;
-      font-weight:700;
-      margin:12px 0 18px;
-    }
-    .card {
-      background:#fff;
-      border-radius:16px;
-      box-shadow:0 2px 8px #e3f2fd;
-      padding:14px;
-      margin-bottom:18px;
-    }
     .label {
       font-size:.9em;
       color:#555;
       margin-bottom:6px;
     }
-    .badge {
-      display:inline-block;
-      background:#f3f7ff;
-      color:#666;
-      border-radius:999px;
-      padding:2px 8px;
-      font-size:.8em;
-      margin-right:6px;
-    }
+
     .chart-wrap {
       position:relative;
       width:100%;
-      height:220px;
-    }
-    @media (max-width:420px){
-      .chart-wrap { height:180px; }
-    }
-    footer {
-      display:flex;
-      justify-content:center;
-      gap:32px;
-      padding:16px 0;
-      background:#fff;
-      border-radius:24px 24px 0 0;
-      box-shadow:0 -2px 8px #e3f2fd;
-      position:fixed;
-      left:0; right:0; bottom:0;
-    }
-    footer a img {
-      width:32px; height:32px; opacity:0.8;
+      height:100px;
     }
   </style>
 </head>
 <body>
   <header>
     <button onclick="window.history.back()">←</button>
-    <span>Marysia 👶</span>
+    <span style="font-size:1.05rem; font-weight:700;">Marysia 👶</span>
   </header>
 
   <main>
@@ -120,7 +42,7 @@
 
     <div class="card">
       <div class="label">Rozkład faz (24 h)</div>
-      <div class="chart-wrap" style="height:200px;">
+      <div class="chart-wrap" style="height:100px;">
         <canvas id="dist"></canvas>
       </div>
 
@@ -136,7 +58,7 @@
   <footer>
     <a href="camera.html"><img src="icons/camera_video_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt=""></a>
     <a href="food.html"><img src="icons/grocery_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt=""></a>
-    <a href="user.html"><img src="icons/person_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt=""></a>
+    <a href="index.html"><img src="icons/person_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt=""></a>
     <a href="devices.html"><img src="icons/device_hub_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt=""></a>
     <a href="settings.html"><img src="icons/settings_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt=""></a>
   </footer>
