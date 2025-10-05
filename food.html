@@ -31,6 +31,27 @@
       height: 28px;
       opacity: 0.7;
     }
+
+    .tile {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 2px 8px #e3f2fd;
+      padding: 18px 0 10px 0;
+      font-size: 1.1em;
+      color: #444;
+      transition: box-shadow 0.2s;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      flex-direction: row;
+      padding: 15px;
+      position: relative;
+    }
+
+    .tile img {
+      margin-left: 8px;
+    }
   </style>
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
 </head>
@@ -40,8 +61,86 @@
     <img src="icons/settings_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="Ustawienia">
   </header>
   <main>
-    <h2>Jedzenie</h2>
-    <p>Informacje o jedzeniu dziecka.</p>
+    <h2>Dodaj nowy rekord</h2>
+    <label for="meal">Rodzaj posiłku:</label>
+    <div style="margin: 12px 0;">
+      <select name="meal" id="meal" style="
+        padding: 10px 16px;
+        border-radius: 8px;
+        border: 1px solid #90caf9;
+        background: #f8fafd;
+        font-family: 'Quicksand', Arial, sans-serif;
+        font-size: 1em;
+        color: #222;
+        box-shadow: 0 1px 4px #e3f2fd;
+        outline: none;
+        transition: border-color 0.2s;
+        width: 100%;
+      ">
+        <option value="breastfeeding">Karmienie piersią</option>
+        <option value="pediatrics">Mleko z butelki</option>
+      </select>
+    </div>
+    <label for="time">Czas posiłku:</label>
+    <input type="time" id="time" name="time" style="
+      padding: 10px 16px;
+      border-radius: 8px;
+      border: 1px solid #90caf9;
+      background: #f8fafd;
+      font-family: 'Quicksand', Arial, sans-serif;
+      font-size: 1em;
+      color: #222;
+      box-shadow: 0 1px 4px #e3f2fd;
+      outline: none;
+      transition: border-color 0.2s;
+    ">
+    <input type="date" id="date" name="date" style="
+      padding: 10px 16px;
+      border-radius: 8px;
+      border: 1px solid #90caf9;
+      background: #f8fafd;
+      font-family: 'Quicksand', Arial, sans-serif;
+      font-size: 1em;
+      color: #222;
+      box-shadow: 0 1px 4px #e3f2fd;
+      outline: none;
+      transition: border-color 0.2s;
+    "><br>
+    <h2>Historia posiłków</h2>
+
+    <div class="tile">
+        10:30 05.10.2025
+        <div>
+          <img src="icons/breastfeeding_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="posiłek">
+          <img src="icons/edit_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="edit">
+        </div>
+    </div>
+
+     <div class="tile">
+        6:30 05.10.2025
+        <div>
+          <img src="icons/pediatrics_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="posiłek">
+          <img src="icons/edit_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="edit">
+        </div>
+    </div>
+
+     <div class="tile">
+        23:45 04.10.2025
+        <div>
+          <img src="icons/pediatrics_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="posiłek">
+          <img src="icons/edit_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="edit">
+        </div>
+    </div>
+
+     <div class="tile">
+        18:20 04.10.2025
+        <div>
+          <img src="icons/breastfeeding_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="posiłek">
+          <img src="icons/edit_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="edit">
+        </div>
+    </div>
+
+
   </main>
   <footer style="display:flex; justify-content:center; gap:32px; padding:16px 0; background:none; border-top:none;">
   <a href="camera.html"><img src="icons/camera_video_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="camera" style="width:32px; height:32px; opacity:0.8;"></a>
