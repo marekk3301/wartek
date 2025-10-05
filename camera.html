@@ -5,24 +5,295 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Kamera</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: "Segoe UI", sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f8f8f8;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      justify-content: space-between;
+      overflow: hidden;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+
+    header img {
+      width: 24px;
+      height: 24px;
+      cursor: pointer;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      padding: 1rem;
+      align-items: center;
+      justify-content: center;
+    }
+
+    h2 {
+      text-align: center;
+      color: #64b5f6;
+      font-weight: 700;
+      margin-bottom: 18px;
+      margin-top: 0;
+    }
+
+    .video-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #000;
+      z-index: 1;
+      border-radius: 0;
+      overflow: hidden;
+      box-shadow: none;
+    }
+
+    video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      display: block;
+      z-index: 1;
+    }
+
+    footer {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100vw;
+      z-index: 20;
+      background: #111;
+      border-top: none;
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      padding: 16px 0;
+    } 
+
+    footer a img {
+      filter: brightness(0) invert(1);
+      opacity: 0.9;
+      background: none;
+    }
+    footer a img:hover {
+      opacity: 1;
+    }
+
+    .controls {
+      position: fixed;
+      left: 50%;
+      bottom: 80px;
+      transform: translateX(-50%);
+      z-index: 10;
+      width: 80%;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      gap: 10px;
+    }
+
+    .control-btn {
+      width: 36px;
+      height: 36px;
+      background: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 2px 8px #e3f2fd;
+      border: none;
+      transition: box-shadow 0.2s, background 0.2s;
+      padding: 0;
+      margin-top: 22px;
+    }
+
+    .control-btn:hover {
+      box-shadow: 0 4px 16px #bbdefb;
+      background: #e3f2fd;
+    }
+
+    .control-btn img {
+      width: 22px;
+      height: 22px;
+      opacity: 0.85;
+      transition: opacity 0.2s;
+    }
+
+    /* --- Joystick --- */
+    .joystick-container {
+      position: relative;
+      opacity: 0.7;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: #baf0ff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
+      touch-action: none;
+    }
+
+    .joystick {
+      width: 40px;
+      height: 40px;
+      background: #64b5f6;
+      border-radius: 50%;
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      transition: transform 0.1s ease-out;
+    }
+
+  </style>
 </head>
 <body>
-  <header style="display:flex; align-items:center; gap:12px; justify-content:flex-start; padding:18px 24px; background:#e3f2fd; border-bottom:1px solid #bbdefb;">
+  <!-- <header style="display:flex; align-items:center; gap:12px; justify-content:flex-start; padding:18px 24px; background:#e3f2fd; border-bottom:1px solid #bbdefb;">
     <button onclick="window.history.back()" style="background:#e3f2fd; border:none; border-radius:8px; padding:6px 14px; font-size:1em; color:#64b5f6; font-weight:600; cursor:pointer;">
         ← 
     </button>
     <span style="font-size:1.2em; font-weight:600; letter-spacing:1px;">Marysia 👶</span>
-    </header>
-  <main>
-    <h2>Kamera</h2>
-    <p>Podgląd z kamery.</p>
+    </header> -->
+  <div class="video-container">
+      <video id="stream" autoplay muted loop>
+        <source src="assets/livestream.mp4" type="video/mp4">
+        Twoja przeglądarka nie obsługuje wideo.
+      </video>
+      <div class="controls">
+        <button class="control-btn" id="muteBtn" aria-label="Mute">
+          <img src="icons/mic_off_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="mute" id="muteOffIcon">
+          <img src="icons/mic_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="unmute" id="muteOnIcon" style="display:none;">
+        </button>
+        <div class="joystick-container" id="joystickContainer">
+          <div class="joystick" id="joystick"></div>
+        </div>
+        <button class="control-btn" id="soundBtn" aria-label="Sound">
+          <img src="icons/brand_awareness_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="sound_on" id="soundOnIcon">
+          <img src="icons/no_sound_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="sound_off" id="soundOffIcon" style="display:none;">
+        </button>
+      </div>
+    </div>
   </main>
-  <footer style="display:flex; justify-content:center; gap:32px; padding:16px 0; background:none; border-top:none;">
+
+  <footer>
   <a href="camera.html"><img src="icons/camera_video_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="camera" style="width:32px; height:32px; opacity:0.8;"></a>
   <a href="food.html"><img src="icons/grocery_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="food" style="width:32px; height:32px; opacity:0.8;"></a>
   <a href="user.html"><img src="icons/person_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="user" style="width:32px; height:32px; opacity:0.8;"></a>
   <a href="devices.html"><img src="icons/device_hub_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="devices" style="width:32px; height:32px; opacity:0.8;"></a>
   <a href="settings.html"><img src="icons/settings_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="settings" style="width:32px; height:32px; opacity:0.8;"></a>
 </footer>
+
+<script>
+    // --- Mute button toggle ---
+    const video = document.getElementById("stream");
+    const muteBtn = document.getElementById("muteBtn");
+    const muteOffIcon = document.getElementById("muteOffIcon");
+    const muteOnIcon = document.getElementById("muteOnIcon");
+
+    muteBtn.addEventListener("click", () => {
+      video.muted = !video.muted;
+      if (video.muted) {
+        muteOffIcon.style.display = "none";
+        muteOnIcon.style.display = "inline";
+      } else {
+        muteOffIcon.style.display = "inline";
+        muteOnIcon.style.display = "none";
+      }
+    });
+
+    // --- Sound button toggle ---
+    const soundBtn = document.getElementById("soundBtn");
+    const soundOnIcon = document.getElementById("soundOnIcon");
+    const soundOffIcon = document.getElementById("soundOffIcon");
+    let soundOn = true;
+    soundBtn.addEventListener("click", () => {
+      soundOn = !soundOn;
+      if (soundOn) {
+        soundOnIcon.style.display = "inline";
+        soundOffIcon.style.display = "none";
+      } else {
+        soundOnIcon.style.display = "none";
+        soundOffIcon.style.display = "inline";
+      }
+    });
+
+    // --- Joystick animation ---
+    const joystick = document.getElementById("joystick");
+    const container = document.getElementById("joystickContainer");
+    const maxDistance = 30; // px
+    let active = false;
+
+    function handleMove(clientX, clientY) {
+      const rect = container.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+
+      const dx = clientX - centerX;
+      const dy = clientY - centerY;
+
+      const distance = Math.min(Math.sqrt(dx * dx + dy * dy), maxDistance);
+      const angle = Math.atan2(dy, dx);
+
+      const x = Math.cos(angle) * distance;
+      const y = Math.sin(angle) * distance;
+
+      joystick.style.transform = `translate(${x}px, ${y}px)`;
+    }
+
+    function resetJoystick() {
+      joystick.style.transition = "transform 0.3s ease";
+      joystick.style.transform = "translate(0, 0)";
+      setTimeout(() => (joystick.style.transition = "transform 0.1s ease-out"), 300);
+    }
+
+    container.addEventListener("mousedown", (e) => {
+      active = true;
+      handleMove(e.clientX, e.clientY);
+    });
+
+    container.addEventListener("mousemove", (e) => {
+      if (active) handleMove(e.clientX, e.clientY);
+    });
+
+    window.addEventListener("mouseup", () => {
+      active = false;
+      resetJoystick();
+    });
+
+    // Touch support
+    container.addEventListener("touchstart", (e) => {
+      active = true;
+      handleMove(e.touches[0].clientX, e.touches[0].clientY);
+    });
+
+    container.addEventListener("touchmove", (e) => {
+      if (active) handleMove(e.touches[0].clientX, e.touches[0].clientY);
+    });
+
+    container.addEventListener("touchend", () => {
+      active = false;
+      resetJoystick();
+    });
+  </script>
 </body>
 </html>
