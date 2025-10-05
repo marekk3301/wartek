@@ -2,33 +2,275 @@
 <html lang="pl">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Marysia Dashboard</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sen</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    :root {
+      --brand:#64b5f6;
+      --muted:#777;
+      --ok:#43a047;
+      --warn:#ffa000;
+      --danger:#e53935;
+      --panel:#f6f8fa;
+    }
+    body {
+      margin:0;
+      font-family:'Quicksand', Arial, sans-serif;
+      background: linear-gradient(135deg, #e3f2fd 0%, #f8fafd 100%);
+      color:#222;
+    }
+    header {
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding:18px 24px;
+      background:#fff;
+      border-bottom:1px solid #bbdefb;
+      border-radius:0 0 24px 24px;
+      box-shadow:0 2px 8px #e3f2fd;
+    }
+    header button {
+      background:none;
+      border:none;
+      font-size:1.2em;
+      color:#64b5f6;
+      cursor:pointer;
+    }
+    header span {
+      font-weight:700;
+      color:#64b5f6;
+      font-size:1.2em;
+    }
+    main {
+      padding:16px;
+      max-width:400px;
+      margin:0 auto 90px;
+    }
+    h2 {
+      text-align:center;
+      color:#64b5f6;
+      font-weight:700;
+      margin:12px 0 18px;
+    }
+    .card {
+      background:#fff;
+      border-radius:16px;
+      box-shadow:0 2px 8px #e3f2fd;
+      padding:14px;
+      margin-bottom:18px;
+    }
+    .label {
+      font-size:.9em;
+      color:#555;
+      margin-bottom:6px;
+    }
+    .badge {
+      display:inline-block;
+      background:#f3f7ff;
+      color:#666;
+      border-radius:999px;
+      padding:2px 8px;
+      font-size:.8em;
+      margin-right:6px;
+    }
+    .chart-wrap {
+      position:relative;
+      width:100%;
+      height:220px;
+    }
+    @media (max-width:420px){
+      .chart-wrap { height:180px; }
+    }
+    footer {
+      display:flex;
+      justify-content:center;
+      gap:32px;
+      padding:16px 0;
+      background:#fff;
+      border-radius:24px 24px 0 0;
+      box-shadow:0 -2px 8px #e3f2fd;
+      position:fixed;
+      left:0; right:0; bottom:0;
+    }
+    footer a img {
+      width:32px; height:32px; opacity:0.8;
+    }
+  </style>
 </head>
 <body>
-  <header style="display:flex; align-items:center; gap:12px; justify-content:flex-start; padding:18px 24px; background:#e3f2fd; border-bottom:1px solid #bbdefb;">
-    <button onclick="window.history.back()" style="background:#e3f2fd; border:none; border-radius:8px; padding:6px 14px; font-size:1em; color:#64b5f6; font-weight:600; cursor:pointer;">
-        ← 
-    </button>
-    <span style="font-size:1.2em; font-weight:600; letter-spacing:1px;">Marysia 👶</span>
-    </header>
+  <header>
+    <button onclick="window.history.back()">←</button>
+    <span>Marysia 👶</span>
+  </header>
 
   <main>
-    <h4>Last night</h4>
-    <div class="bar"></div>
-    <h4>Last week</h4>
-    <div class="bar"></div>
-    <h4>Predicted night sleep</h4>
-    <div class="bar"></div>
+    <h2>Sen</h2>
+
+    <div class="card">
+      <div class="label">Hipnogram 24 h (kończy się bieżącą godziną)</div>
+      <div class="chart-wrap">
+        <canvas id="hypno"></canvas>
+      </div>
+      <div style="margin-top:6px;">
+        <span class="badge">oś X: co 4 h</span>
+        <span class="badge">REM / Light / Deep / Wake</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="label">Rozkład faz (24 h)</div>
+      <div class="chart-wrap" style="height:200px;">
+        <canvas id="dist"></canvas>
+      </div>
+
+      <div class="label" style="margin-top:10px;">Ruch (ostatnie 60 min)</div>
+      <div class="chart-wrap" style="height:90px;">
+        <canvas id="movementSpark"></canvas>
+      </div>
+    </div>
+
+    <p style="text-align:center; font-size:.85em; color:#777;">Dane poglądowe, nie medyczne.</p>
   </main>
 
   <footer>
-  <a href="camera.html"><img src="icons/camera_video_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="camera"></a>
-  <a href="food.html"><img src="icons/grocery_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="food"></a>
-  <a href="user.html"><img src="icons/person_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="user"></a>
-  <a href="devices.html"><img src="icons/device_hub_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="devices"></a>
-  <a href="settings.html"><img src="icons/settings_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="settings"></a>
+    <a href="camera.html"><img src="icons/camera_video_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt=""></a>
+    <a href="food.html"><img src="icons/grocery_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt=""></a>
+    <a href="user.html"><img src="icons/person_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt=""></a>
+    <a href="devices.html"><img src="icons/device_hub_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt=""></a>
+    <a href="settings.html"><img src="icons/settings_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt=""></a>
   </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    async function loadSleepCSV(){
+      const r = await fetch('data/sleep_today.csv');
+      if(!r.ok){ console.error('sleep CSV fetch error', r.status); return []; }
+      const txt = await r.text();
+      const lines = txt.trim().split(/\r?\n/);
+      const out=[];
+      for(let i=1;i<lines.length;i++){
+        const [time,stage,move,hr,rr]=lines[i].split(',');
+        out.push({
+          time:(time||'').trim(),
+          stage:(stage||'').trim(),
+          movement:parseFloat(move)||0,
+          hr:parseInt(hr)||0,
+          rr:parseInt(rr)||0
+        });
+      }
+      return out;
+    }
+
+    const stageOrder=['Wake','REM','Light','Deep'];
+    const stageToY=s=>stageOrder.indexOf(s);
+    const yToLabel=i=>stageOrder[i]||'';
+    const timeToMin=t=>{const [h,m]=t.split(':').map(Number);return h*60+m;};
+    const pad2=n=>String(n).padStart(2,'0');
+    const minToTime=m=>`${pad2(Math.floor(m/60))}:${pad2(m%60)}`;
+
+    function minutesInStage(data,stage){return data.filter(d=>d.stage===stage).length*5;}
+
+    function makeSpark(ctx,xs,ys){
+      new Chart(ctx,{
+        type:'line',
+        data:{labels:xs,datasets:[{data:ys,borderColor:'#64b5f6',borderWidth:2,pointRadius:0,fill:false,tension:0.3}]},
+        options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{enabled:false}},scales:{x:{display:false},y:{display:false}}}
+      });
+    }
+
+    function makeHypnogram(ctx,points){
+      const now=new Date();
+      const endMin=now.getHours()*60;
+      const startMin=endMin-1440;
+      return new Chart(ctx,{
+        type:'line',
+        data:{datasets:[{data:points,borderColor:'#64b5f6',borderWidth:2,pointRadius:0,fill:false,stepped:true}]},
+        options:{
+          responsive:true,maintainAspectRatio:false,
+          plugins:{legend:{display:false}},
+          scales:{
+            x:{type:'linear',min:startMin,max:endMin,
+              grid:{color:'#eaf2fd'},
+              ticks:{
+                stepSize:120,
+                autoSkip:false,
+                callback:(v)=>{
+                  const h=Math.floor((v%1440)/60);
+                  const m=Math.floor(v%60);
+                  if(m!==0) return '';
+                  if(h===0) return '';
+                  return (h%4===0)?String(h):'';
+                }
+              }
+            },
+            y:{type:'linear',min:-0.5,max:3.5,
+              ticks:{stepSize:1,callback:yToLabel},
+              grid:{color:'#eaf2fd'}
+            }
+          }
+        },
+        plugins:[{
+          id:'nowLine',
+          afterDatasetsDraw(chart){
+            const {ctx,chartArea,scales:{x}}=chart;
+            const nowX=x.getPixelForValue(endMin);
+            ctx.save();ctx.strokeStyle='#e53935';ctx.lineWidth=2;
+            ctx.beginPath();ctx.moveTo(nowX,chartArea.top);ctx.lineTo(nowX,chartArea.bottom);ctx.stroke();
+            ctx.restore();
+          }
+        }]
+      });
+    }
+
+    function makeDistribution(ctx,pct){
+      new Chart(ctx,{
+        type:'bar',
+        data:{labels:Object.keys(pct),datasets:[{data:Object.values(pct),backgroundColor:['#b0bec5','#42a5f5','#90caf9','#64b5f6'],borderWidth:0}]},
+        options:{
+          responsive:true,maintainAspectRatio:false,
+          plugins:{legend:{display:false},tooltip:{callbacks:{label:(it)=>`${it.parsed.y}%`}}},
+          scales:{
+            x:{grid:{display:false}},
+            y:{min:0,max:100,ticks:{stepSize:20,callback:v=>v+'%'},grid:{color:'#eaf2fd'}}
+          }
+        }
+      });
+    }
+
+    (async()=>{
+      const data=await loadSleepCSV();
+      if(!data.length) return;
+      data.sort((a,b)=>timeToMin(a.time)-timeToMin(b.time));
+
+      const now=new Date();
+      const endMin=now.getHours()*60;
+      const pts=data.map(d=>{
+        const m=timeToMin(d.time);
+        const x=(m<=endMin)?m:m-1440;
+        return {x,y:stageToY(d.stage)};
+      }).sort((a,b)=>a.x-b.x);
+      makeHypnogram(document.getElementById('hypno').getContext('2d'),pts);
+
+      const totalMin=data.length*5;
+      const pct={
+        Wake:Math.round(100*minutesInStage(data,'Wake')/totalMin),
+        REM:Math.round(100*minutesInStage(data,'REM')/totalMin),
+        Light:Math.round(100*minutesInStage(data,'Light')/totalMin),
+        Deep:Math.round(100*minutesInStage(data,'Deep')/totalMin)
+      };
+      makeDistribution(document.getElementById('dist').getContext('2d'),pct);
+
+      const lastMin=timeToMin(data[data.length-1].time);
+      const startWin=(lastMin-60+1440)%1440;
+      const movWin=data.filter(p=>{
+        const m=timeToMin(p.time);
+        return startWin<=lastMin?(m>=startWin&&m<=lastMin):(m>=startWin||m<=lastMin);
+      });
+      makeSpark(document.getElementById('movementSpark').getContext('2d'),
+                movWin.map(d=>d.time),
+                movWin.map(d=>d.movement));
+    })();
+  </script>
 </body>
 </html>

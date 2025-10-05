@@ -2,64 +2,261 @@
 <html lang="pl">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tętno</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Oddech</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    :root { --brand:#4aa3ff; --ok:#43a047; --warn:#ffa000; --danger:#e53935; --muted:#777; --grid:#eef2f5; --panel:#f6f8fa; }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif;color:#222;background:#fff}
+    header{display:flex;align-items:center;gap:12px;padding:14px 16px;background:#eef6ff;border-bottom:1px solid #ddefff}
+    header button{background:transparent;border:1px solid #cfe4ff;border-radius:8px;padding:6px 10px;color:#2d8cff;font-weight:600;cursor:pointer}
+    main{padding:16px;max-width:1200px;margin:0 auto}
+    h2{margin:0 0 12px 0}
+    .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin:10px 0 14px}
+    .kpi{background:#fff;border:1px solid #eee;border-radius:12px;padding:12px}
+    .kpi .label{font-size:.85rem;color:var(--muted)}
+    .kpi .value{font-size:1.6rem;font-weight:700}
+    .status{display:flex;gap:8px;align-items:center}
+    .dot{width:10px;height:10px;border-radius:50%}
+    .card{background:#fff;border:1px solid #e7ecef;border-radius:10px;padding:10px}
+    .chart-wrap{position:relative;width:100%;height:200px}
+    .sparkline{height:80px}
+    .legend{display:flex;gap:12px;align-items:center;color:#666;font-size:.85rem;margin-top:6px}
+    .badge{padding:2px 8px;border-radius:999px;border:1px solid #e7ecef;background:var(--panel)}
+    .checklist{display:grid;gap:8px;margin-top:8px}
+    .item{display:flex;align-items:center;gap:8px}
+    .iconsvg{width:20px;height:20px}
+  </style>
 </head>
 <body>
-  <header style="display:flex; align-items:center; gap:12px; justify-content:flex-start; padding:18px 24px; background:#e3f2fd; border-bottom:1px solid #bbdefb;">
-    <button onclick="window.history.back()" style="background:#e3f2fd; border:none; border-radius:8px; padding:6px 14px; font-size:1em; color:#64b5f6; font-weight:600; cursor:pointer;">
-        ← 
-    </button>
-    <span style="font-size:1.2em; font-weight:600; letter-spacing:1px;">Marysia 👶</span>
-    </header>
+  <header>
+    <button onclick="window.history.back()">←</button>
+    <span style="font-weight:700">Marysia 👶</span>
+  </header>
+
   <main>
-    <h2>Tętno</h2>
-    <p>Informacje o tętnie dziecka.</p>
-    <!-- ...po animacji serca, w <main>... -->
-<div style="margin:24px auto 0 auto; max-width:320px;">
-  <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
-    <span id="breathCheck1Icon"></span>
-    <span style="font-family:'Quicksand', 'Segoe UI', Arial, sans-serif;">Oddech regularny</span>
-  </div>
-  <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
-    <span id="breathCheck2Icon"></span>
-    <span style="font-family:'Quicksand', 'Segoe UI', Arial, sans-serif;">Brak przerw w oddechu</span>
-  </div>
-  <div style="display:flex; align-items:center; gap:10px;">
-    <span id="breathCheck3Icon"></span>
-    <span style="font-family:'Quicksand', 'Segoe UI', Arial, sans-serif;">Brak zakrycia twarzy kocem</span>
-  </div>
-</div>
+    <h2>Oddech</h2>
 
-<script>
-  // Przykładowe dane multisensoryczne (możesz podmienić na fetch z data/multisensory.csv)
-  const multisensoryData = {
-    breathRegular: true,
-    breathInterruptions: false,
-    faceCovered: false // true jeśli twarz zakryta kocem
-  };
+    <!-- KPI -->
+    <section class="kpis">
+      <div class="kpi">
+        <div class="label">Tempo oddechu</div>
+        <div class="value" id="kpiBpm">—</div>
+        <div class="legend"><span class="badge">ostatnie 30 s</span></div>
+      </div>
+      <div class="kpi">
+        <div class="label">Regularność</div>
+        <div class="status">
+          <span class="dot" id="kpiRegDot" style="background:#bbb"></span>
+          <span id="kpiRegText">—</span>
+        </div>
+        <div class="legend"><span>CV IBI</span><span class="badge" id="kpiRegCv">—</span></div>
+      </div>
+      <div class="kpi">
+        <div class="label">Zmienność (RMSSD)</div>
+        <div class="value" id="kpiRmssd">—</div>
+        <div class="legend"><span class="badge">sekundy</span></div>
+      </div>
+      <div class="kpi">
+        <div class="label">Pauzy w oddechu (1 h)</div>
+        <div class="value" id="kpiApneaCount">0</div>
+        <div class="legend"><span>najdł. <span id="kpiApneaMax">0 s</span></span></div>
+      </div>
+    </section>
 
-  // Ikony SVG haczyków
-  function checkIcon(color="#43a047") {
-    return `<svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="11" fill="${color}" opacity="0.15"/><path d="M6 12.5l3 3 7-7" stroke="${color}" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
-  }
-  function warnIcon(color="#ffa000") {
-    return `<svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="11" fill="${color}" opacity="0.15"/><path d="M11 7v5M11 15v1" stroke="${color}" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>`;
-  }
+    <!-- Szybki podgląd: 60 min (działa sensownie niezależnie od częstotliwości próbkowania) -->
+    <section class="card">
+      <div class="label" style="margin-bottom:6px">Ostatnie 60 min</div>
+      <div class="chart-wrap sparkline">
+        <canvas id="spark"></canvas>
+      </div>
+    </section>
 
-  // Ustaw ikony wg danych
-  document.getElementById('breathCheck1Icon').innerHTML = multisensoryData.breathRegular ? checkIcon() : warnIcon("#e53935");
-  document.getElementById('breathCheck2Icon').innerHTML = !multisensoryData.breathInterruptions ? checkIcon() : warnIcon("#e53935");
-  document.getElementById('breathCheck3Icon').innerHTML = !multisensoryData.faceCovered ? checkIcon() : warnIcon("#ffa000");
-</script>
+    <!-- 24 h wykres -->
+    <section class="card">
+      <div class="label" style="margin-bottom:6px">24 h (kończy się bieżącą godziną)</div>
+      <div class="chart-wrap">
+        <canvas id="breath24h"></canvas>
+      </div>
+      <div class="legend">
+        <span class="badge">norma 30–60 BPM</span>
+        <span class="badge">pauzy = czerwone znaczniki</span>
+      </div>
+    </section>
+
+    <!-- Kontrole bezpieczeństwa -->
+    <section class="card">
+      <div class="label" style="margin-bottom:6px">Szybka kontrola</div>
+      <div class="checklist">
+        <div class="item"><span id="checkRegularIcon"></span><span>Oddech równy</span></div>
+        <div class="item"><span id="checkNoInterruptIcon"></span><span>Brak przerw &gt; 10 s</span></div>
+        <div class="item"><span id="checkFaceIcon"></span><span>Twarz niezakryta</span></div>
+      </div>
+    </section>
+
+    <p style="color:#777;font-size:.85rem;margin-top:8px">
+      Ten ekran ma charakter poglądowy (nie medyczny).
+    </p>
   </main>
-  <footer style="display:flex; justify-content:center; gap:32px; padding:16px 0; background:none; border-top:none;">
-  <a href="camera.html"><img src="icons/camera_video_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="camera" style="width:32px; height:32px; opacity:0.8;"></a>
-  <a href="food.html"><img src="icons/grocery_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="food" style="width:32px; height:32px; opacity:0.8;"></a>
-  <a href="user.html"><img src="icons/person_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="user" style="width:32px; height:32px; opacity:0.8;"></a>
-  <a href="devices.html"><img src="icons/device_hub_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="devices" style="width:32px; height:32px; opacity:0.8;"></a>
-  <a href="settings.html"><img src="icons/settings_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="settings" style="width:32px; height:32px; opacity:0.8;"></a>
-</footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    // ======= Dane =======
+    // Używamy pliku: data/breathing_today.csv (jak w linku)
+    async function loadBreathCSV() {
+      const r = await fetch('data/breathing_today.csv');
+      const txt = await r.text();
+      const lines = txt.trim().split('\n');
+      const out = [];
+      for (let i = 1; i < lines.length; i++) {
+        const [t,bpm,pause,face] = lines[i].split(',');
+        out.push({
+          time: t.trim(),
+          bpm: parseFloat(bpm),
+          pause: parseFloat(pause||0),
+          faceCovered: face ? Number(face)===1 : 0
+        });
+      }
+      return out;
+    }
+
+    // ======= Pomocnicze =======
+    const pad2 = n => String(n).padStart(2,'0');
+    const timeToMin = t => { const [h,m]=t.split(':').map(Number); return h*60+m; };
+    const minToTime = m => `${pad2(Math.floor(m/60))}:${pad2(m%60)}`;
+    function rmssdFromIBI(ibiSec){
+      if (ibiSec.length < 2) return 0;
+      let sum=0,n=0; for (let i=1;i<ibiSec.length;i++){ const d=ibiSec[i]-ibiSec[i-1]; sum+=d*d; n++; }
+      return Math.sqrt(sum/n);
+    }
+    function coeffVar(arr){
+      if(!arr.length) return 0;
+      const mean = arr.reduce((a,b)=>a+b,0)/arr.length;
+      if(mean===0) return 0;
+      const sd = Math.sqrt(arr.reduce((s,x)=>s+(x-mean)*(x-mean),0)/arr.length);
+      return sd/mean;
+    }
+
+    function iconCheck(color="#43a047"){
+      return `<svg class="iconsvg" viewBox="0 0 22 22"><circle cx="11" cy="11" r="11" fill="${color}" opacity="0.15"/><path d="M6 12.5l3 3 7-7" stroke="${color}" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+    }
+    function iconWarn(color="#ffa000"){
+      return `<svg class="iconsvg" viewBox="0 0 22 22"><circle cx="11" cy="11" r="11" fill="${color}" opacity="0.15"/><path d="M11 7v5M11 15v1" stroke="${color}" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>`;
+    }
+
+    // ======= Wykresy =======
+    function makeSparkline(ctx, data, minutesWindow=60){
+      // Wytnij ostatnie `minutesWindow` minut względem bezwzględnego czasu
+      const lastMin = timeToMin(data[data.length-1].time);
+      const startWin = (lastMin - minutesWindow + 1440) % 1440;
+      const filtered = data.filter(p => {
+        const m=timeToMin(p.time);
+        return startWin <= lastMin ? (m>=startWin && m<=lastMin) : (m>=startWin || m<=lastMin);
+      });
+      const x = filtered.map(p=>p.time);
+      const y = filtered.map(p=>p.bpm);
+      return new Chart(ctx,{
+        type:'line',
+        data:{ labels:x, datasets:[{ data:y, borderColor:'#4aa3ff', borderWidth:2, pointRadius:0, fill:false, tension:0.25 }]},
+        options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{display:false}, tooltip:{enabled:false} },
+          scales:{ x:{display:false}, y:{display:false, min:20, max:70 } } }
+      });
+    }
+
+    function make24hChart(ctx, points, apneaXs){
+      const now = new Date();
+      const endMin = now.getHours()*60;
+      const startMin = endMin - 1440;
+      const xMin = startMin, xMax = endMin;
+
+      return new Chart(ctx, {
+        type:'line',
+        data:{
+          datasets:[
+            { data: points, borderColor:'#4aa3ff', borderWidth:2, pointRadius:0, fill:false, tension:0.25 },
+            { type:'scatter', data: apneaXs.map(x=>({x,y:null})), borderColor:'#e53935', backgroundColor:'#e53935', pointRadius:3, showLine:false }
+          ]
+        },
+        options:{
+          responsive:true, maintainAspectRatio:false,
+          plugins:{ legend:{display:false}, tooltip:{
+            callbacks:{ title:(it)=>minToTime(Math.round(it[0].parsed.x)),
+                        label:(it)=> it.datasetIndex===0 ? `${it.parsed.y.toFixed(0)} BPM` : 'pauza' } } },
+          scales:{
+            x:{ type:'linear', min:xMin, max:xMax, grid:{color:'#eef2f5'},
+                ticks:{ stepSize:120, callback:v=>{ const h=Math.floor((v%1440)/60), m=Math.floor(v%60); return (m===0 && h%2===0)?`${pad2(h)}:00`:''; }, maxRotation:0, autoSkip:false } },
+            y:{ min:20, max:70, grid:{color:'#eef2f5'} }
+          }
+        },
+        plugins:[{
+          id:'normBand', beforeDraw(chart){ const {ctx, chartArea, scales:{y}}=chart; if(!chartArea) return;
+            const yTop=y.getPixelForValue(60), yBot=y.getPixelForValue(30); ctx.save(); ctx.fillStyle='rgba(76,175,80,0.08)'; ctx.fillRect(chartArea.left,yTop,chartArea.right-chartArea.left,yBot-yTop); ctx.restore(); }
+        },{
+          id:'nowLine', afterDatasetsDraw(chart){ const {ctx, chartArea, scales:{x}}=chart; const nowX=x.getPixelForValue(xMax);
+            ctx.save(); ctx.strokeStyle='#2d8cff'; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(nowX, chartArea.top); ctx.lineTo(nowX, chartArea.bottom); ctx.stroke(); ctx.restore(); }
+        }]
+      });
+    }
+
+    // ======= Główna logika =======
+    (async()=>{
+      const data = await loadBreathCSV();
+      data.sort((a,b)=> timeToMin(a.time) - timeToMin(b.time));
+
+      // KPI
+      const tailCount = Math.max(3, Math.round(data.length * 0.02)); // ~2% próbek (ok. 30 min przy 5-min krokach)
+      const tail = data.slice(-tailCount);
+      const bpmNow = tail.reduce((s,p)=>s+p.bpm,0)/tail.length;
+      document.getElementById('kpiBpm').textContent = isFinite(bpmNow) ? Math.round(bpmNow) : '—';
+
+      const recent = data.slice(-Math.min(120, data.length));
+      const ibi = recent.map(p => 60/Math.max(1,p.bpm));
+      const cv = coeffVar(ibi);
+      const rm = rmssdFromIBI(ibi);
+      document.getElementById('kpiRmssd').textContent = rm ? rm.toFixed(2) : '—';
+      document.getElementById('kpiRegCv').textContent = cv ? cv.toFixed(2) : '—';
+      let regText='—', regColor='#bbb';
+      if (cv < 0.10) { regText='równy'; regColor='var(--ok)'; }
+      else if (cv < 0.20) { regText='umiark.'; regColor='var(--warn)'; }
+      else { regText='niereg.'; regColor='var(--danger)'; }
+      document.getElementById('kpiRegText').textContent = regText;
+      document.getElementById('kpiRegDot').style.background = regColor;
+
+      // Pauzy w ostatniej godzinie
+      const now = new Date();
+      const endMin = now.getHours()*60;
+      const lastHourMin = (endMin - 60 + 1440) % 1440;
+      const inLastHour = data.filter(p => {
+        const m=timeToMin(p.time);
+        return lastHourMin <= endMin ? (m>=lastHourMin && m<=endMin) : (m>=lastHourMin || m<=endMin);
+      });
+      const apneasLastHour = inLastHour.filter(p => p.pause && p.pause >= 10);
+      const longest = apneasLastHour.length ? Math.max(...apneasLastHour.map(p=>p.pause)) : 0;
+      document.getElementById('kpiApneaCount').textContent = apneasLastHour.length;
+      document.getElementById('kpiApneaMax').textContent = `${Math.round(longest)} s`;
+
+      // Checki
+      document.getElementById('checkRegularIcon').innerHTML = (cv < 0.20) ? iconCheck() : iconWarn('#ffa000');
+      const anyLongPause = data.some(p => p.pause && p.pause >= 10);
+      document.getElementById('checkNoInterruptIcon').innerHTML = (!anyLongPause) ? iconCheck() : iconWarn('#e53935');
+      const faceCoveredNow = data.length ? data[data.length-1].faceCovered === 1 : 0;
+      document.getElementById('checkFaceIcon').innerHTML = (!faceCoveredNow) ? iconCheck() : iconWarn('#ffa000');
+
+      // Sparkline: ostatnie 60 minut
+      makeSparkline(document.getElementById('spark').getContext('2d'), data, 60);
+
+      // 24h wykres: mapowanie do okna [end-1440, end]
+      const pts=[], apneaXs=[];
+      for (const p of data){
+        const m=timeToMin(p.time);
+        const x = (m <= endMin) ? m : m - 1440;
+        pts.push({x, y:p.bpm});
+        if (p.pause && p.pause >= 10) apneaXs.push(x);
+      }
+      pts.sort((a,b)=>a.x-b.x); apneaXs.sort((a,b)=>a-b);
+      make24hChart(document.getElementById('breath24h').getContext('2d'), pts, apneaXs);
+    })();
+  </script>
 </body>
 </html>

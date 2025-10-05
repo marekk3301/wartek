@@ -7,22 +7,24 @@
   <link rel="stylesheet" href="style.css" />
   <style>
     body {
-      background: #f8fafd;
-      font-family: 'Quicksand', 'Segoe UI', Arial, sans-serif;
-      color: #444;
+      background: linear-gradient(135deg, #e3f2fd 0%, #f8fafd 100%);
+      font-family: 'Quicksand', Arial, sans-serif;
       margin: 0;
-      padding: 0;
+      color: #222;
     }
     header {
+      background: #fff;
+      border-radius: 0 0 24px 24px;
+      box-shadow: 0 2px 8px #e3f2fd;
+      padding: 18px 24px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 18px 24px;
-      background: #e3f2fd;
-      border-bottom: 1px solid #bbdefb;
-      font-size: 1.2em;
-      font-weight: 600;
-      letter-spacing: 1px;
+    }
+    header span {
+      font-size: 1.3em;
+      font-weight: 700;
+      color: #64b5f6;
     }
     header img {
       width: 28px;
@@ -55,8 +57,8 @@
       text-align: center;
       font-size: 1.1em;
       color: #444;
-      position: relative;
       transition: box-shadow 0.2s;
+      margin-bottom: 12px;
     }
     .tile img {
       margin-top: 8px;
@@ -88,8 +90,13 @@
       justify-content: center;
       gap: 32px;
       padding: 16px 0;
-      background: none;
-      border-top: none;
+      background: #fff;
+      border-radius: 24px 24px 0 0;
+      box-shadow: 0 -2px 8px #e3f2fd;
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
     }
     footer a {
       color: #64b5f6;
@@ -98,6 +105,11 @@
     }
     footer a:hover {
       text-decoration: underline;
+    }
+    footer a img {
+      width: 32px;
+      height: 32px;
+      opacity: 0.8;
     }
   </style>
   <!-- Cute Google font -->
@@ -139,7 +151,7 @@
       <canvas id="poopTimeline" width="340" height="80"></canvas>
     </div>
   </main>
-  <footer style="display:flex; justify-content:center; gap:32px; padding:16px 0; background:none; border-top:none;">
+  <footer style="display:flex; justify-content:center; gap:32px; padding:16px 0; background:#fff; border-radius:24px 24px 0 0; box-shadow:0 -2px 8px #e3f2fd; position:fixed; left:0; right:0; bottom:0;">
     <a href="camera.html"><img src="icons/camera_video_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="camera" style="width:32px; height:32px; opacity:0.8;"></a>
     <a href="food.html"><img src="icons/grocery_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="food" style="width:32px; height:32px; opacity:0.8;"></a>
     <a href="user.html"><img src="icons/person_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="user" style="width:32px; height:32px; opacity:0.8;"></a>
