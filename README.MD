@@ -61,23 +61,6 @@ Built to help parents move from guesswork to guidance.
 3. The app consumes a **WebSocket** feed for instant KPIs, charts, and notifications.
 4. Pattern analysis learns baselines and highlights likely next events (e.g., pre-wake restlessness, diaper change likelihood).
 
----
-
-## Quick start (dev / demo)
-- **Offline analysis:** load a CSV in the visualization page and explore trends (no network required).
-- **Live demo:** run the app locally and feed mock data via a simulator or replay script (1 Hz).
-- **No backend yet?** Keep the same JSON shape; you can swap in a real ingest/WS server later without changing the client.
-
-
----
-
-## Roadmap
-- Per-device/JWT auth and web-push notifications.
-- Short-horizon predictors (e.g., pre-cry indicators) and richer anomaly detection.
-- Pluggable storage backend (TSDB/SQL) with history and dashboards.
-- Optional camera UX (opt-in, isolated processing, privacy controls).
-- Export/share sleep summaries for caregivers.
-
 
 ---
 
