@@ -31,6 +31,71 @@
       height: 28px;
       opacity: 0.7;
     }
+
+    
+    .tile {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 2px 8px #e3f2fd;
+      padding: 18px 0 10px 0;
+      font-size: 1.1em;
+      color: #444;
+      transition: box-shadow 0.2s;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      flex-direction: row;
+      padding: 15px;
+      position: relative;
+    }
+    
+    .tile:hover {
+      box-shadow: 0 4px 16px #bbdefb;
+      cursor: pointer;
+    }
+
+    .tile img {
+      max-height: 128px;
+    }
+
+    .tile div h3{
+      text-decoration: none !important;
+      color: inherit !important;
+      margin: 0;
+    }
+
+    .tile div div{
+      text-decoration: none !important;
+      color: inherit !important;
+      margin: 0;
+      font-weight: 400;
+      color: #444;
+    }
+
+    a {
+      text-decoration: none;
+    }
+    .device_info {
+      display: flex;
+      height: 100%;
+      flex-direction: column;
+      align-items: baseline;
+      gap: 8px;
+    }
+
+    .connection_status {
+      position: absolute;
+      bottom: 12px;
+      left: 12px;
+      width: 12px;
+      height: 12px;
+      background: #4caf50; /* Green for connected */
+      border: 2px solid #fff;
+      border-radius: 50%;
+      box-shadow: 0 0 6px #4caf50aa;
+    }
+
   </style>
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
 </head>
@@ -41,7 +106,25 @@
   </header>
   <main>
     <h2>Urządzenia</h2>
-    <p>Lista urządzeń.</p>
+    
+    <a href="#"><div class="tile">
+      <div class="device_info">
+        <h3>Wartuś</h3>
+        <div>94%</div>
+      </div>
+      <img src="assets/teddy.png" alt="wartus">
+      <div class="connection_status"></div>
+    </div></a>
+
+    <a href="#"><div class="tile">
+      <div class="device_info">
+        <h3>Kamera</h3>
+        <div>86%</div>
+      </div>
+      <img src="assets/camera.png" alt="camera">
+      <div class="connection_status"></div>
+    </div></a>
+
   </main>
   <footer style="display:flex; justify-content:center; gap:32px; padding:16px 0; background:none; border-top:none;">
   <a href="camera.html"><img src="icons/camera_video_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="camera" style="width:32px; height:32px; opacity:0.8;"></a>
